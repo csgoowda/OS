@@ -324,24 +324,58 @@ Every important decision goes through it.
 
 # What is a Shell?
 
-Shell is an interface between user and OS.
-
-It accepts commands from users.
+**A shell is the user interface of an operating system that lets you communicate with the kernel by typing commands or using graphical menus.** It acts as a bridge between you and the system, supporting both command-line (CLI) shells like Bash and graphical shells like Windows Explorer.  [GeeksForGeeks](https://www.geeksforgeeks.org/operating-systems/shell-in-operating-system/)  [Analytics Vidhya](https://www.analyticsvidhya.com/blog/2024/06/what-is-shell/)  
 
 ---
 
-### Example
+## 🔑 What a Shell Does
+- **Command Interpretation**: Reads and executes user commands.
+- **Program Execution**: Launches applications or system utilities.
+- **Input/Output Redirection**: Controls where data flows (e.g., `>` to send output to a file).
+- **Pipes**: Connects commands so one’s output becomes another’s input (`ls | grep txt`).
+- **Scripting**: Automates tasks with shell scripts.
+- **Environment Customization**: Lets you set aliases, variables, and preferences.  [GeeksForGeeks](https://www.geeksforgeeks.org/operating-systems/shell-in-operating-system/)  
 
-Linux Terminal
+---
 
+## 🖥️ Types of Shells
+| **Type** | **Interface** | **Examples** | **Use Cases** |
+|----------|---------------|--------------|---------------|
+| **Command-Line Shell (CLI)** | Text-based | Bash, sh, csh, zsh, ksh, fish | System administration, programming, automation |
+| **Graphical Shell (GUI)** | Windows, icons, menus | GNOME Shell (Linux), Windows Explorer | Everyday user interaction, file management |  [GeeksForGeeks](https://www.geeksforgeeks.org/operating-systems/shell-in-operating-system/)  [Analytics Vidhya](https://www.analyticsvidhya.com/blog/2024/06/what-is-shell/)  
+
+---
+
+## ⚙️ Popular Shells
+- **Bash (Bourne Again Shell)**: Default in Linux, supports scripting, job control, and command history.  
+- **Zsh**: Advanced features like auto-completion, plugins, and themes.  
+- **Csh**: Syntax similar to C programming.  
+- **Ksh (Korn Shell)**: Strong scripting capabilities.  
+- **Fish (Friendly Interactive Shell)**: User-friendly with auto-suggestions and syntax highlighting.  [Analytics Vidhya](https://www.analyticsvidhya.com/blog/2024/06/what-is-shell/)  
+
+---
+
+## 📌 Example: Simple Bash Script
 ```bash
-ls
-mkdir
-cd
+#!/bin/bash
+echo "Welcome to Shell Scripting!"
 ```
+This script prints a message when executed, showing how shells can automate tasks.  [GeeksForGeeks](https://www.geeksforgeeks.org/operating-systems/shell-in-operating-system/)  
 
-These commands are interpreted by the shell.
+---
 
+## ✅ Advantages
+- Lightweight and fast.  
+- Powerful for system administration.  
+- Highly customizable.  
+- Excellent for automation.  
+
+## ⚠️ Disadvantages
+- CLI shells can be complex for beginners.  
+- Requires memorizing commands.  
+- Syntax errors in scripts may cause failures.  [GeeksForGeeks](https://www.geeksforgeeks.org/operating-systems/shell-in-operating-system/)  
+
+---
 ---
 
 # Shell vs Kernel
@@ -356,28 +390,66 @@ These commands are interpreted by the shell.
 
 # System Calls
 
-Applications cannot directly access hardware.
-
-They ask the OS through system calls.
+**System calls are the fundamental interface between user programs and the operating system, allowing applications to request services like file handling, process control, memory management, and device communication.** They act as the gateway for switching from *user mode* to *kernel mode* safely.  
 
 ---
 
-### Example
+## 🔑 What Are System Calls?
+- **Definition**: A system call is a programmatic request from a user-level process to the OS kernel for a service.  
+- **Purpose**: Provides controlled access to hardware and kernel-level functions.  
+- **Mechanism**: Usually triggered by a software interrupt or trap instruction, which transfers control to the kernel.  
+- **Security**: Ensures user programs cannot directly manipulate hardware or kernel memory.  
 
-Suppose:
+---
 
-```cpp
-open("file.txt");
+## 🛠 Categories of System Calls
+| **Category** | **Examples** | **Purpose** |
+|--------------|--------------|-------------|
+| **File System Operations** | `open()`, `read()`, `write()`, `close()` | Manage files and directories. |
+| **Process Control** | `fork()`, `exec()`, `wait()`, `exit()`, `kill()` | Create, terminate, and synchronize processes. |
+| **Memory Management** | `brk()`, `sbrk()`, `mmap()`, `munmap()` | Allocate and free memory dynamically. |
+| **Device Management** | `ioctl()`, `read()`, `write()` | Interact with hardware devices. |
+| **Interprocess Communication (IPC)** | `pipe()`, `socket()`, `shmget()`, `semget()` | Enable communication and synchronization between processes.   [Wikipedia](https://en.wikipedia.org/wiki/System_call)  [GeeksForGeeks](https://www.geeksforgeeks.org/operating-systems/traps-and-system-calls-in-operating-system-os/)  [GeeksForGeeks](https://www.geeksforgeeks.org/operating-systems/different-types-of-system-calls-in-os/) |
+
+---
+
+## 📌 Example: File Handling System Call
+```c
+#include <unistd.h>
+#include <fcntl.h>
+
+int main() {
+    int fd = open("example.txt", O_CREAT | O_WRONLY, 0644);
+    write(fd, "Hello, System Call!", 20);
+    close(fd);
+    return 0;
+}
 ```
+- **open()**: Creates or opens a file.  
+- **write()**: Writes data to the file.  
+- **close()**: Closes the file descriptor.  
 
-Application requests:
+---
 
-```text
-Open file
-```
+## ⚙️ How System Calls Work
+1. **User Program** places request (e.g., `read()`).
+2. **Trap Instruction** switches CPU to kernel mode.
+3. **Kernel Handler** validates and executes the request.
+4. **Control Returns** to user mode with results.  
 
-OS performs the operation.
+---
 
+## ✅ Advantages
+- Provides **safe access** to hardware.  
+- Enables **multi-tasking** and resource sharing.  
+- Supports **automation and scripting**.  
+
+## ⚠️ Limitations
+- **Performance overhead** due to mode switching.  
+- **Complexity** in debugging system-level errors.  
+- **Portability issues** since system calls differ across OS (Linux vs Windows).  
+
+---
 ---
 
 # Why System Calls?
@@ -392,7 +464,53 @@ Applications could directly manipulate hardware.
 
 # User Mode vs Kernel Mode
 
-One of the most asked interview questions.
+**User mode is where applications run with restricted access, while kernel mode is where the operating system’s core executes with full control over hardware.** The distinction ensures security, stability, and efficient resource management in modern operating systems.  
+
+---
+
+## 🔑 Key Differences Between User Mode and Kernel Mode
+
+| **Aspect** | **User Mode** | **Kernel Mode** |
+|------------|---------------|-----------------|
+| **Access Level** | Limited, cannot directly access hardware or kernel memory | Full, unrestricted access to CPU, memory, and devices |
+| **Who Runs Here** | Application programs (e.g., text editors, browsers) | Operating system kernel, device drivers, system services |
+| **Memory Space** | Each process has its own isolated memory space | Shared memory space for kernel and system processes |
+| **Error Impact** | Crashes affect only the application | Errors can crash the entire system |
+| **Instruction Privileges** | Cannot execute privileged instructions | Can execute all instructions, including hardware-level |
+| **Transition Mechanism** | Requests services via **system calls** | Executes requested services, then returns to user mode |
+| **Performance** | Safer but slower (due to mode switching overhead) | Faster for low-level tasks but riskier if misused |
+
+---
+
+## 🖥️ How Mode Switching Works
+1. **Program in User Mode** requests a service (e.g., reading a file).  
+2. **System Call** triggers a switch to kernel mode.  
+3. **Kernel Executes** the privileged operation (e.g., disk I/O).  
+4. **Control Returns** to user mode with the result.  
+
+This switching is essential for protecting hardware and ensuring that user applications cannot directly interfere with system-level operations.  
+
+---
+
+## ✅ Advantages
+- **User Mode**: Safer execution, process isolation, easier debugging.  
+- **Kernel Mode**: Direct hardware access, efficient resource management, advanced scheduling.  
+
+## ⚠️ Limitations
+- **User Mode**: Performance overhead due to frequent transitions, limited control.  
+- **Kernel Mode**: Errors can destabilize the entire system, harder to debug.  
+
+---
+
+## 📌 Real-World Example
+- When you open a file in a text editor:  
+  - The editor runs in **user mode**.  
+  - It requests file access via a **system call**.  
+  - The OS kernel switches to **kernel mode**, interacts with the disk, and returns the data.  
+
+---
+
+👉 In simple terms: **User mode is the “safe playground” for applications, while kernel mode is the “control room” of the operating system.** Without this separation, a faulty app could crash your entire computer.  
 
 ---
 
